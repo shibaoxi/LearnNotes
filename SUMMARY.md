@@ -1,0 +1,6 @@
+* [kubernetes 学习笔记](k8s/README.md)
+  * [POD 介绍](k8s/pod.md)
+  * [ReplicaSet 介绍](k8s/ReplicaSet.md)
+  * [Job 介绍](k8s/Job.md)
+  * [DaemonSet](k8s/DaemonSet.md)
+  * [ConfigMap和Secret](k8s/ConfigMap和Secret.md)
