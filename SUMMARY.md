@@ -4,3 +4,4 @@
   * [Job 介绍](k8s/Job.md)
   * [DaemonSet](k8s/DaemonSet.md)
   * [ConfigMap和Secret](k8s/ConfigMap和Secret.md)
+  * [Deployment 声明式升级应用](k8s/Deployment声明式升级应用.md)
