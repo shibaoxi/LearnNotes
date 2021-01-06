@@ -46,6 +46,8 @@
     docker build -t davidshi/demoapp:v1 .
     docker push davidshi/demoapp:v1
     ```
+
+
 ###### 创建Deployment 
 * 创建一个demo-deployment-v1.yaml
     ```yaml
