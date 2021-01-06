@@ -65,5 +65,5 @@
         spec:
         containers:
         - image: davidshi/demoapp:v1
-            name: nodejs
+          name: nodejs
     ```
