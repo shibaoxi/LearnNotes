@@ -54,16 +54,23 @@
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-    name: demoDeployment
+      name: demodeployment
+      labels:
+        app: demoapp
     spec:
-    replicas: 3
-    template:
+      replicas: 3
+      selector:
+        matchLabels:
+        app: demoapp
+      template:
         metadata:
-        name: demoapp
-        labels:
+          name: demoapp
+          labels:
             app: demoapp
         spec:
-        containers:
-        - image: davidshi/demoapp:v1
-          name: nodejs
+          containers:
+          - image: davidshi/demoapp:v1
+            name: nodejs
+            ports:
+            - containerPort: 8080
     ```
