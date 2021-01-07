@@ -51,26 +51,26 @@
 ###### 创建Deployment 
 * 创建一个demo-deployment-v1.yaml
     ```yaml
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: demodeployment
-      labels:
-        app: demoapp
-    spec:
-      replicas: 3
-      selector:
-        matchLabels:
-        app: demoapp
-      template:
-        metadata:
-          name: demoapp
-          labels:
-            app: demoapp
-        spec:
-          containers:
-          - image: davidshi/demoapp:v1
-            name: nodejs
-            ports:
-            - containerPort: 8080
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: demodeployment
+    labels:
+      app: demoapp
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+      app: demoapp
+    template:
+      metadata:
+        name: demoapp
+        labels:
+          app: demoapp
+      spec:
+        containers:
+        - image: davidshi/demoapp:v1
+          name: nodejs
+          ports:
+          - containerPort: 8080
     ```
