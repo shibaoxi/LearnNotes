@@ -171,3 +171,44 @@ Deplyment的升级策略:
 |kubectl replace|将原有对象替换为yaml/json文件中定义的新的对象，与apply命令相反，运行这个命令前要求对象必须存在，否则会报错。例如: ``` kubectl replace -f demo-deployment-v2.yaml ```|
 |kubectl set image|修改Pod、RC、Deployment、DemonSet、Job或者ReplicaSet内的镜像。例如: ``` kubectl set image deployment demodeployment nodejs=davidshi/demoapp:v2 ```|
 
+---
+#### 回滚 Deployment
+1. 创建一个v3版本的应用程序
+    ```javascript
+    const http = require('http');
+    const os = require('os');
+    var requestCount = 0;
+    console.log('demo server starting ....');
+
+    var handler = function(request, response){
+        console.log("Received request from" + request.connection.remoteAddress);
+        if (++requestCount >=5) {
+            response.writeHead(500);
+            response.end("Some internal error has occurred! This is pod " + os.hostname() + "\n");
+            return;
+        }
+        response.writeHead(200);
+        response.end("This is v2 running in pod " + os.hostname() + "\n");
+    };
+
+    var www = http.createServer(handler);
+    www.listen(8080);
+    ``` 
+2. 部署v3 版本
+
+        kubectl set image deployment demodeployment nodejs=davidshi/demoapp:v3
+
+3. 同时执行如下命令进行监视
+
+        while true; do curl http://40.73.8.50; done
+    ![](https://i.loli.net/2021/01/07/gSbuzn62ZwTlk1p.png)
+
+4. 回滚升级
+
+        kubectl rollout undo deployment demodeployment
+
+5. 显示Deployment的滚动升级历史
+
+        kubectl rollout history deployment demodeployment 
+    ![](https://i.loli.net/2021/01/07/ZYuG4BIH3DaNSfT.png)
+    >还记得上面创建Deployment时用的--record参数吗？如果不给这个参数，版本历史中的CHANGE-CAUSE这栏会为空，这也会是我们很难辨别每次更新做了哪些更改。
