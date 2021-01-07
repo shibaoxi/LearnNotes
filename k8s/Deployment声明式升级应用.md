@@ -73,10 +73,11 @@
           name: nodejs
           ports:
           - containerPort: 8080
-    ```
+  ```
 * 应用yaml文件创建资源
 
         kubectl apply -f demo-deployment-v1.yaml --record
+
     > 注意： 确保在创建时使用了 --record选项，这个选项会记录历史版本号，在之后的操作中非常有用
 
 * 运行``` kubectl get deployments ```检查Deployment是否已经创建
@@ -193,7 +194,7 @@ Deplyment的升级策略:
 
     var www = http.createServer(handler);
     www.listen(8080);
-    ``` 
+    ```
 2. 部署v3 版本
 
         kubectl set image deployment demodeployment nodejs=davidshi/demoapp:v3
@@ -201,7 +202,8 @@ Deplyment的升级策略:
 3. 同时执行如下命令进行监视
 
         while true; do curl http://40.73.8.50; done
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png)
+
+    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png" style="zoom:150%;" />
 
 4. 回滚升级
 
@@ -210,5 +212,6 @@ Deplyment的升级策略:
 5. 显示Deployment的滚动升级历史
 
         kubectl rollout history deployment demodeployment 
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107150633.png)
+    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107150633.png" style="zoom:150%;" />
+    
     >还记得上面创建Deployment时用的--record参数吗？如果不给这个参数，版本历史中的CHANGE-CAUSE这栏会为空，这也会是我们很难辨别每次更新做了哪些更改。
