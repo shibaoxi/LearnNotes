@@ -74,3 +74,100 @@
           ports:
           - containerPort: 8080
     ```
+* 应用yaml文件创建资源
+
+        kubectl apply -f demo-deployment-v1.yaml --record
+    > 注意： 确保在创建时使用了 --record选项，这个选项会记录历史版本号，在之后的操作中非常有用
+
+* 运行``` kubectl get deployments ```检查Deployment是否已经创建
+
+        NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+        demodeployment   3/3     3            3           16h
+* 运行``` kubectl rollout status deployment demodeployment ```检查deployment上线状态，输入类似于：
+
+        deployment "demodeployment" successfully rolled out
+
+###### 创建Service测试访问
+1. 创建如下yaml文件，并应用到群集中：
+    ```yaml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: demo-loadbalancer
+    spec:
+      type: LoadBalancer
+      ports:
+      - port: 80
+        targetPort: 8080
+      selector:
+        app: demoapp
+    ```
+2. 运行```kubectl get svc```查看创建的Service Public IP, 显示如下：
+
+        NAME                TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE
+        demo-loadbalancer   LoadBalancer   10.0.21.85   40.73.8.50    80:31155/TCP   65s
+        kubernetes          ClusterIP      10.0.0.1     <none>        443/TCP        218d
+
+3. 执行 ```curl http://40.73.8.50``` 输出如下：
+
+        This is v1 running in pod demodeployment-55b5cdd97c-l9zz9
+
+---
+#### 升级Deployment
+
+Deplyment的升级策略:
+* Recreate策略：在删除旧的pod之后才开始创建新的pod。如果你的应用程序不支持多个版本同时对外提供服务，需要在启动新版本之前完全停用旧版本，那么需要使用这种策略。（会造成应用短暂不可用）
+* RollingUpdate策略: 会渐进的删除旧的pod，与此同时创建新的pod，使应用程序在整个升级过程中都处于可用状态。如果应用支持多个版本同时对外提供服务，则推荐使用这个策略。(Deployment默认使用策略)
+
+> 注意：仅当Deployment Pod模板（.spec.template）发生改变时，例如模板的标签或者容器镜像被更新，才会触发Deployment上线。其他更新（如对Deployment执行扩缩容的操作）不会触发上线动作。
+
+###### 演示更新的操作
+1. 更新镜像版本，把镜像的应用编辑更新，然后推送新的镜像版本
+
+    * 更新app.js脚本
+        ```javascript
+        const http = require('http');
+        const os = require('os');
+
+        console.log('demo server starting ....');
+
+        var handler = function(request, response){
+            console.log("Received request from" + request.connection.remoteAddress);
+            response.writeHead(200);
+            response.end("This is v2 running in pod " + os.hostname() + "\n");
+        };
+
+        var www = http.createServer(handler);
+        www.listen(8080);
+        ```
+    * 推送新的版本镜像
+
+            docker build -t davidshi/demoapp:v2
+            docker push davidshi/demoapp:v2
+
+2. 减慢滚动升级速度
+    > 我们将执行如下命令来更改Deployment 上的minReadySeconds属性来实现
+    
+        kubectl patch deployments demodeployment -p '{"spec":{"minReadySeconds": 10}}'
+
+3. 触发滚动升级
+
+    如果想要跟踪更新过程中应用的运行状况，需要现在另外一个终端中再次运行curl循环，以查看请求返回的情况
+
+        while true; do curl http://40.73.8.50; done
+    
+    修改pod镜像版本以触发滚动升级
+
+        kubectl set image deployment demodeployment nodejs=davidshi/demoapp:v2
+    
+---
+#### 修改Deployment或其他资源的不同方式
+
+|方法|作用|
+|----|----|
+|<div style="width: 100pt">  kubectl edit </div>|使用默认编辑器打开资源配置。修改保存并退出编辑器，资源对象会被更新。例如：``` kubectl edit deployment demodeployment ```
+|kubectl patch |修改单个资源属性。例如：``` kubectl patch deployment demodeployment -p '{"spec":{"template": {"spec": {"containers": [{"name": "nodejs", "image": "davidshi/demoapp:v2"}]}}}}' ```|
+|kubectl apply|通过一个完整的yaml或者json文件，应用其中新的值来修改对象。如果yaml/json中指定的对象不存在，则被创建。该文件需要包含资源的完整定义(不能像kubectl patch那样只包含想要更新的字段)。例如: ``` kubectl apply -f demo-deployment-v2.yaml ```|
+|kubectl replace|将原有对象替换为yaml/json文件中定义的新的对象，与apply命令相反，运行这个命令前要求对象必须存在，否则会报错。例如: ``` kubectl replace -f demo-deployment-v2.yaml ```|
+|kubectl set image|修改Pod、RC、Deployment、DemonSet、Job或者ReplicaSet内的镜像。例如: ``` kubectl set image deployment demodeployment nodejs=davidshi/demoapp:v2 ```|
+
