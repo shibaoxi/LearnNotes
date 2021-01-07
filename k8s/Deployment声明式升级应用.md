@@ -203,7 +203,7 @@ Deplyment的升级策略:
 
         while true; do curl http://40.73.8.50; done
 
-    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png" style="zoom:150%;" />
+    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png" width = "680" align=center />
 
 4. 回滚升级
 
