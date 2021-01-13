@@ -311,6 +311,7 @@ Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名�
     
   ```
 
+
 * 更新 Statefulset
 
   ```yaml
