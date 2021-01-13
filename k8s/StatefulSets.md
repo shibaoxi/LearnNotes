@@ -229,8 +229,9 @@ Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名�
 我们接下来部署一个简单应用来了解这一特点：
 * 修改你的应用代码如下：
 
+
     ```javascript
-    
+
     const http = require('http');
     const os = require('os');
     const fs = require('fs');
@@ -309,6 +310,7 @@ Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名�
 
     var www = http.createServer(handler);
     www.listen(port);
+    
     ```
 
 
