@@ -100,9 +100,6 @@
       ![image-20210114142135823](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114142135823.png)
 
    
-
-
-
 ---
 
 ###### 4. 配置SQL Always On
