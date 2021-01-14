@@ -6,3 +6,4 @@
   * [ConfigMap和Secret](k8s/ConfigMap和Secret.md)
   * [Deployment 声明式升级应用](k8s/Deployment声明式升级应用.md)
   * [StatefulSets](k8s/StatefulSets.md)
+* [数据库学习笔记](SQL/Install-Sql-Server-AlwaysOn.md)
