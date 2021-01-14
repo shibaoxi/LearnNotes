@@ -13,13 +13,13 @@
 
 ##### 部署实施
 
-###### 1. 安装群集功能
+###### 安装群集功能
 
 ​	![image-20210114120343242](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114120343242.png)
 
 > 每个数据库节点都要安装
 
-###### 2. 配置群集
+###### 配置群集
 
  1. 打开群集管理器，点击新建群集
 
@@ -73,7 +73,7 @@
 
                ---
 
-###### 3. 安装数据库
+###### 安装数据库
 
    > 每个节点安装数据库
 
@@ -102,7 +102,7 @@
    
 ---
 
-###### 4. 配置SQL Always On
+###### 配置SQL Always On
 
    1. 打开Sql server configuration manager，启用SQL Always On
 
