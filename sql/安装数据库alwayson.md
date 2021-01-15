@@ -13,7 +13,9 @@
 
 ### 安装群集功能
 
-<div align = "center" ><img src = https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114120343242.png width=600 height=300 /></div>
+<div align = "center" >
+   <img src = https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114120343242.png width=600 height=300 />
+</div>
 
 ​![image-20210114120343242](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114120343242.png)
 
