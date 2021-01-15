@@ -1,4 +1,5 @@
 * [kubernetes 学习笔记](k8s/README.md)
+  * [Kubernetes原理以及基础介绍](k8s/Kubernetes原理以及基础介绍.md)
   * [POD 介绍](k8s/pod.md)
   * [ReplicaSet 介绍](k8s/ReplicaSet.md)
   * [Job 介绍](k8s/Job.md)
