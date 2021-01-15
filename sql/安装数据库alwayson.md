@@ -13,6 +13,10 @@
 
 ### 安装群集功能
 
+<div align = "left">
+   <img src = https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114120343242.png width=600 height=300 />
+</div>
+
 ​![image-20210114120343242](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/image-20210114120343242.png)
 
 > 每个数据库节点都要安装
