@@ -7,5 +7,6 @@
   * [ConfigMap和Secret](k8s/ConfigMap和Secret.md)
   * [Deployment 声明式升级应用](k8s/Deployment声明式升级应用.md)
   * [StatefulSets](k8s/StatefulSets.md)
+  * [使用kubeadm的方式搭建kubernetes集群](k8s/使用kubeadm的方式搭建kubernetes高可用集群.md)
 * [数据库学习笔记](sql/README.md)
   * [SQL AwaysON 安装配置](sql/安装数据库alwayson.md)
