@@ -1,3 +1,5 @@
+# 概要
+
 * [kubernetes 学习笔记](k8s/README.md)
   * [Kubernetes原理以及基础介绍](k8s/Kubernetes原理以及基础介绍.md)
   * [POD 介绍](k8s/pod.md)
@@ -8,5 +10,6 @@
   * [Deployment 声明式升级应用](k8s/Deployment声明式升级应用.md)
   * [StatefulSets](k8s/StatefulSets.md)
   * [使用kubeadm的方式搭建kubernetes集群](k8s/使用kubeadm的方式搭建kubernetes高可用集群.md)
+    * [1. 实践环境准备](k8s/实践环境准备.md)
 * [数据库学习笔记](sql/README.md)
   * [SQL AwaysON 安装配置](sql/安装数据库alwayson.md)
