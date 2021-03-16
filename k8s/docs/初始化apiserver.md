@@ -16,11 +16,11 @@
 根据k8s 官方文档将HA拓扑分为两种，Stacked etcd topology（堆叠ETCD）和External etcd topology（外部ETCD）。
 **堆叠ETCD：** 每个master节点上运行一个apiserver和etcd只与本节点的apiserver 通信。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-stacked-etcd.svg" width=600 />
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-stacked-etcd.svg" width=1200 />
 
 **外部ETCD：** etcd集群运行在单独的主机上，每个etcd都与apiserver节点通信。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-external-etcd.svg" width=600 />
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-external-etcd.svg" width=1200 />
 
 > 官方文档主要是解决了高可用场景下apiserver与etcd集群的关系，三个master节点防止单点故障，但是集群对外访问接口不可能将三个apiserver都暴露出去，一个挂掉时还是不能自动切换到其他节点。
 
