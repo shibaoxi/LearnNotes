@@ -4,4 +4,4 @@
 
 一、[实践环境准备](实践环境准备.md)
 
-二、[初始化API Server(master节点)](初始化apiserver.md)
+二、
