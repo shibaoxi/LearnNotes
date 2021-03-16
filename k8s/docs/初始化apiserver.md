@@ -15,6 +15,7 @@
 
 根据k8s 官方文档将HA拓扑分为两种，Stacked etcd topology（堆叠ETCD）和External etcd topology（外部ETCD）。
 **堆叠ETCD：** 每个master节点上运行一个apiserver和etcd只与本节点的apiserver 通信。
+
 <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-stacked-etcd.svg" width=600 />
 
 **外部ETCD：** etcd集群运行在单独的主机上，每个etcd都与apiserver节点通信。
