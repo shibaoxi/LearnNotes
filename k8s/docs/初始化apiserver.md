@@ -132,7 +132,7 @@ backend kubernetes-apiserver
 分别在三个节点启动haproxy
 
 ```shell
-docker run -d --name=diamond-haproxy --net=host  -v /etc/haproxy:/usr/local/etc/haproxy:ro haproxy --restart=always
+docker run -d --name=diamond-haproxy --net=host --restart=always -v /etc/haproxy:/usr/local/etc/haproxy:ro haproxy 
 ```
 
 #### 1.1.4 部署keepalived
@@ -184,7 +184,7 @@ vrrp_instance VI_1 {
 分别在三台节点启动keepalived
 
 ```shell
-docker run --cap-add=NET_ADMIN --cap-add=NET_BROADCAST --cap-add=NET_RAW --net=host --volume /etc/keepalived/keepalived.conf:/container/service/keepalived/assets/keepalived.conf -d osixia/keepalived:2.0.20 --copy-service  --restart=always
+docker run --cap-add=NET_ADMIN --cap-add=NET_BROADCAST --cap-add=NET_RAW --net=host --restart=always --volume /etc/keepalived/keepalived.conf:/container/service/keepalived/assets/keepalived.conf -d osixia/keepalived:2.0.20 --copy-service  
 ```
 
 ## 二、初始化第一个master节点
