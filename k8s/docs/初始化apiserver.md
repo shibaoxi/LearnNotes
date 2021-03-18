@@ -215,7 +215,7 @@ rm -f ./kubeadm-config.yaml
 cat <<EOF > ./kubeadm-config.yaml
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
-kubernetesVersion: v1.19.0
+kubernetesVersion: v1.20.0
 cgroupDriver: systemd
 imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
 controlPlaneEndpoint: "${MASTER_VIP}:6443"
