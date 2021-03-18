@@ -237,7 +237,7 @@ cp -i /etc/kubernetes/admin.conf /root/.kube/config
 # 安装 calico 网络插件
 # 参考文档 https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises
 rm -f calico-3.18.yaml
-wget https://github.com/shibaoxi/LearnNotes/blob/master/k8s/kubernetes-ha-kubeadm/calico-3.18.yaml
+wget https://baoxishi.blob.core.chinacloudapi.cn/sharefile/calico-3.18.yaml
 sed -i "s#192\.168\.0\.0/16#${POD_SUBNET}#" calico-3.18.yaml
 kubectl apply -f calico-3.18.yaml
 ```
