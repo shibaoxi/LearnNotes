@@ -11,6 +11,6 @@
   * [StatefulSets](k8s/docs/StatefulSets.md)
   * [使用kubeadm的方式搭建kubernetes集群](k8s/docs/使用kubeadm的方式搭建kubernetes高可用集群.md)
     * [1. 实践环境准备](k8s/docs/实践环境准备.md)
-    * [2. 初始化apiserver](k8s/docs/初始化apiserver.md)
+    * [2. 安装Kubernetes高可用](k8s/docs/安装Kubernetes高可用.md)
 * [数据库学习笔记](sql/README.md)
   * [SQL AwaysON 安装配置](sql/安装数据库alwayson.md)

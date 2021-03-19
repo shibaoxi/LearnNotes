@@ -1,4 +1,4 @@
-# 初始化API Server
+# 安装Kubernetes高可用
 
 ## 一、创建API Server 的Load Balancer(私网)
 
@@ -240,4 +240,161 @@ rm -f calico-3.18.yaml
 wget https://baoxishi.blob.core.chinacloudapi.cn/sharefile/calico-3.18.yaml
 sed -i "s#192\.168\.0\.0/16#${POD_SUBNET}#" calico-3.18.yaml
 kubectl apply -f calico-3.18.yaml
+```
+
+**执行结果** :
+在执行结果中着重注意以下信息：保存到文本中备用
+
+```bash
+You can now join any number of the control-plane node running the following command on each as root:
+
+  kubeadm join 192.168.100.190:6443 --token plmj87.uhqlmiojvd26ifdr \
+    --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 \
+    --control-plane --certificate-key 79eb7999f0d23b0e570cc0e972ac04c8e3b208a3097d138b05d771283c877830
+
+Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
+"kubeadm init phase upload-certs --upload-certs" to reload certs afterward.
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.100.190:6443 --token plmj87.uhqlmiojvd26ifdr \
+    --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 
+```
+
+**检查master初始化结果**：
+
+```shell
+#旨在第一个master节点上运行
+
+#执行如下命令，等待3-10分钟，直到多有的容器组处于Running状态
+watch kubectl get pod -n kube-system -o wide
+#查看 master 节点初始化结果
+kubectl get nodes
+```
+
+>注意：
+>请等到所有容器组(大约9个)全部处于Running状态，才进行下一步
+
+## 三、初始化第二、三个节点
+
+>**注意：**
+>
+> * 初始化 master 节点的 token 有效时间为 2 小时
+> * 如果之前没有添加LB，这里要添加上，join命令需指定Load Balancer IP 或者dns名称。
+
+如果之前安装第一个master节点输出结果中给出的token没有超过2个小时，则直接使用那个token添加第二、三个节点。
+
+如果超过了2个小时，或者之前只用了一个master节点，后面想扩容，则需要获取master token
+
+### 3.1 获取 Master 节点的join命令
+
+#### 3.1.1 获取certificate key
+
+在第一台master节点上执行如下语句
+
+```shell
+# 只在第一个master节点上执行
+kubeadm init phase upload-certs --upload-certs
+```
+
+输出结果如下：
+
+```bash
+[upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+[upload-certs] Using certificate key:
+f2bb24325fe4f0f36d6d20eb6d6c6c155d28e272255d9475883c602a964d9918
+```
+
+#### 3.1.2 获取join命令
+
+在第一台master节点上执行如下语句
+
+```shell
+#只在第一个master节点上执行
+kubeadm token create --print-join-command
+```
+
+输出结果如下：
+
+```bash
+kubeadm join 192.168.100.190:6443 --token zqifcs.f0i9c5gxdo84kam1     --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 
+```
+
+根据以上两个输出结果，第二三个节点的join命令如下：
+
+```shell
+kubeadm join 192.168.100.190:6443 --token zqifcs.f0i9c5gxdo84kam1 --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 --control-plane --certificate-key f2bb24325fe4f0f36d6d20eb6d6c6c155d28e272255d9475883c602a964d9918
+```
+
+### 3.2 初始化第二、三个master节点
+
+在另外两个master节点上执行
+
+```shell
+kubeadm join 192.168.100.190:6443 --token zqifcs.f0i9c5gxdo84kam1 --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 --control-plane --certificate-key f2bb24325fe4f0f36d6d20eb6d6c6c155d28e272255d9475883c602a964d9918
+```
+
+检查master初始化结果
+
+```shell
+#在第一台master节点上执行
+#查看 master 节点初始化结果
+kubectl get nodes
+```
+
+检查haproxy日志
+
+```shell
+#查看haproxy docker的日志
+docker logs 8662e2d1f85c
+
+#输出结果如下：
+[WARNING] 076/073337 (7) : Server kubernetes-apiserver/m01 is UP, reason: Layer4 check passed, check duration: 0ms. 1 active and 0 backup servers online. 0 sessions requeued, 0 total in queue.
+[WARNING] 077/020948 (7) : Server kubernetes-apiserver/m02 is UP, reason: Layer4 check passed, check duration: 0ms. 2 active and 0 backup servers online. 0 sessions requeued, 0 total in queue.
+```
+
+## 四、初始化 work 节点
+
+### 4.1 获得join命令参数
+
+>**有效时间**
+> 该token的有效时间为2个小时，2个小时内，你可以使用此token初始化任意数量的work节点。超过2个小时的则需要重新获取。
+
+```shell
+# 在第一个master节点上执行
+kubeadm token create --print-join-command
+```
+
+输出的join命令和参数如下所示：
+
+```shell
+kubeadm join 192.168.100.190:6443 --token c9h7aj.0oyzt5eupkkok526 --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 
+```
+
+### 4.2 初始化worker节点
+
+针对所有的worker节点执行如下语句：
+
+```shell
+# 把前面输出的join命令贴进来，注意查看LB IP是否正确
+kubeadm join 192.168.100.190:6443 --token c9h7aj.0oyzt5eupkkok526 --discovery-token-ca-cert-hash sha256:5e84b524d22dfff89dbba23a5e87aaaae04914cdc017e3d56197b3552ae6f9c0 
+```
+
+### 4.3 检查 worker 初始化结果
+
+```shell
+# 在第一个master节点上执行
+kubectl get nodes
+```
+
+### 4.4 移除 worker 节点
+
+> 如果你的worker节点有问题或者计划移除worker节点，可以执行如下命令：
+
+```shell
+# 在准备移除的worker节点上执行
+kubeadm reset
+# 在第一个master节点上执行
+kubectl delete node demo-worker-*-*
 ```
