@@ -14,3 +14,5 @@
     * [2. 安装Kubernetes高可用](k8s/docs/安装Kubernetes高可用.md)
 * [数据库学习笔记](sql/README.md)
   * [SQL AwaysON 安装配置](sql/安装数据库alwayson.md)
+* [Azure 学习笔记](azure/docs/README.md)
+  * [Azure Cli 命令详解](azure/docs/azure-cli-command.md)
