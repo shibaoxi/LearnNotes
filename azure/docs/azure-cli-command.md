@@ -132,7 +132,7 @@ az vm resize \
 
 另一个有用的命令是 vm list-ip-addresses，它将列出 VM 的公共和专用 IP 地址。
 
-```Azure CLI
+```AzureCLI
 az vm list-ip-addresses -n SampleVM -o table
 ```
 
