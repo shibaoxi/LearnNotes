@@ -219,6 +219,14 @@ az vm show \
     --query hardwareProfile.vmSize
 ```
 
+运行 az disk list 以列出资源组中的托管磁盘。 如果同一资源组中有多个 VM，则此列表可能包含其他磁盘。
+
+```shell
+az disk list \
+  --query '[*].{Name:name,Gb:diskSizeGb,Tier:sku.tier}' \
+  --output table
+```
+
 若要检索网络接口的所有 ID，可使用以下查询：
 
 ```AzureCLI
