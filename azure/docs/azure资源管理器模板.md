@@ -136,6 +136,9 @@ authenticationType 参数指定是使用密码身份验证还是基于密钥的�
 1. 提供 JSON 文件中的值。
 2. 提供值，作为命令行参数。
 
+>对应模板文件参考如下：
+><https://raw.githubusercontent.com/shibaoxi/LearnNotes/master/azure/configfile/vm-simple-linux-azuredeploy.json>
+
 在CLI中执行如下命令定义相关参数：
 
 ```shell
@@ -151,3 +154,52 @@ PASSWORD=$(openssl rand -base64 32)
 DNS_LABEL_PREFIX=mydeployment-$RANDOM
 
 ```
+
+#### 验证模板
+
+作为最后一个验证步骤，首先将验证模板的语法是否正确。
+
+在 Cloud Shell 中，运行 az deployment group validate 来验证该模板
+
+```shell
+az deployment group validate \
+  --resource-group $RESOURCEGROUP \
+  --template-uri "https://raw.githubusercontent.com/shibaoxi/LearnNotes/master/azure/configfile/vm-simple-linux-azuredeploy.json" \
+  --parameters adminUsername=$USERNAME \
+  --parameters authenticationType=password \
+  --parameters adminPasswordOrKey=$PASSWORD \
+  --parameters dnsLabelPrefix=$DNS_LABEL_PREFIX
+```
+
+--template-uri 参数指向 GitHub 上的模板。 模板的文件名是 azuredeploy.json。 如果在本地文件系统中验证和运行模板，可以换成--template-file，指向模板文件所在的路径。
+
+输出中将显示一个大型 JSON 块，告诉你该模板已通过验证。
+
+Azure 资源管理器填充模板参数，并检查模板是否在订阅中成功运行。
+
+如果验证失败，输出中将显示失败的详细说明。
+
+#### 部署模板
+
+```shell
+az deployment group create \
+  --name MyDeployment \
+  --resource-group $RESOURCEGROUP \
+  --template-uri "https://raw.githubusercontent.com/shibaoxi/LearnNotes/master/azure/configfile/vm-simple-linux-azuredeploy.json" \
+  --parameters adminUsername=$USERNAME \
+  --parameters authenticationType=password \
+  --parameters adminPasswordOrKey=$PASSWORD \
+  --parameters dnsLabelPrefix=$DNS_LABEL_PREFIX
+```
+
+#### 验证部署
+
+运行 az deployment group show 验证部署。
+
+```shell
+az deployment group show \
+  --name MyDeployment \
+  --resource-group $RESOURCEGROUP
+```
+
+像以前一样，你将看到同样的 JSON 块。 如果需要这些部署的详细信息，可稍后运行此命令。 输出的结构是 JSON 形式，有利于馈送到可能使用的其他工具，以跟踪部署和云使用情况。
