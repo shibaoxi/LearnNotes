@@ -6,7 +6,7 @@
 
 >出于安全考虑，es默认不允许以root账号运行
 
-```shell
+```bash
 #创建用户
 useradd esuser
 #设置密码
@@ -20,7 +20,7 @@ esuser        ALL=(ALL)       ALL
 
 ### 修改/etc/security/limits.conf文件
 
-```shell
+```bash
 #打开文件
 vim /etc/security/limits.conf
 #在文件最后，增加如下配置
@@ -30,7 +30,7 @@ vim /etc/security/limits.conf
 
 ### 修改/etc/sysctl.conf
 
-```shell
+```bash
 #打开文件
 vim /etc/sysctl.conf
 #在文件最后添加一行
@@ -45,7 +45,7 @@ sysctl -p
 
 下载地址：<https://www.elastic.co/cn/elasticsearch/>
 
-```shell
+```bash
 #在/home下面新建文件夹
 mkdir -p /home/es
 #下载elasticsearch
@@ -57,7 +57,7 @@ mv elasticsearch-7.10.2 elasticsearch
 
 ### 目录介绍
 
-```shell
+```bash
 $ES_HOME: /home/es/elasticsearch
 bin: $ES_HOME/bin  #es启动命令和插件安装命令
 conf：$ES_HOME/conf #elasticsearch.yml配置文件目录
@@ -71,7 +71,7 @@ modules： $ES_HOME/modules #包含所有的es模块
 
 ### 配置自带的java环境
 
-```shell
+```bash
 vim ~/.bashrc
 #在后面追加如下内容
 export JAVA_HOME=/home/es/elasticsearch/jdk
@@ -81,7 +81,7 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar\:/lib/tools.jar
 
 ### 配置加密通信证书
 
-```shell
+```bash
 ./bin/elasticsearch-certutil ca  #创建集群认证机构，需要交互输入密码
 ./bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12  #为节点颁发证书，与上面密码一样
 执行./bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password 并输入第一步输入的密码 
@@ -93,20 +93,20 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar\:/lib/tools.jar
 
 进入es的根目录，然后创建logs 和 data
 
-```shell
+```bash
 mkdir data
 mkdir logs
 ```
 
 打开elasticsearch.yml文件
 
-```shell
+```bash
 vim config/elasticsearch.yml
 ```
 
 配置elasticsearch.yml 文件
 
-```shell
+```bash
 $ cat config/elasticsearch.yml | egrep -v '^&|#'
 
 cluster.name: my-application
@@ -133,7 +133,7 @@ xpack.security.transport.ssl.truststore.path: elastic-certificates.p12
 
 先将es文件夹下的所有目录的所有权限迭代给esuser用户
 
-```shell
+```bash
 chgrp -R esuser ./es
 chown -R esuser ./es
 chmod 777 es
@@ -143,7 +143,7 @@ chmod 777 es
 
 然后./bin/elasticsearch-setup-passwords interactive 配置默认用户的密码：（有如下的交互），可以使用auto自动生成。
 
-```shell
+```bash
 Initiating the setup of passwords for reserved users elastic,apm_system,kibana,kibana_system,logstash_system,beats_system,remote_monitoring_user.
 You will be prompted to enter passwords as the process progresses.
 Please confirm that you would like to continue [y/N]y
@@ -176,7 +176,7 @@ Changed password for user [elastic]
 
 下载kibana文件
 
-```shell
+```bash
 #在home下面新建kibana文件夹
 mkdir -p /home/kibana
 # 修改文件夹权限为esuser
@@ -191,7 +191,7 @@ tar -xzvf kibana-7.10.2-linux-x86_64.tar.gz
 
 修改kibana.yml
 
-```shell
+```bash
 $ cat config/kibana.yml | egrep  -v "^$|#"
 
 server.port: 5601
@@ -208,7 +208,7 @@ elasticsearch.username: "elastic"
 
 下载并解压并将文件移动到/opt/kafka目录下
 
-```shell
+```bash
 # 下载
 curl -L -O https://archive.apache.org/dist/kafka/2.1.0/kafka_2.12-2.1.0.tgz
 
@@ -220,7 +220,7 @@ mv kafka_2.12-2.1.0 /opt/kafka
 
 配置kafka
 
-```shell
+```bash
 #创建日志存放目录
 cd /opt/kafka
 mkdir -p logs
@@ -251,7 +251,7 @@ group.initial.rebalance.delay.ms=0
 
 配置环境变量
 
-```shell
+```bash
 vi /etc/profile  #追加以下信息
 export KAFKA_HOME=/opt/kafka
 export PATH=$KAFKA_HOME/bin:$PATH
@@ -259,7 +259,7 @@ export PATH=$KAFKA_HOME/bin:$PATH
 
 启动
 
-```shell
+```bash
 cd /opt/kafka/bin
 kafka-server-start.sh -daemon /opt/kafka/config/server.properties
 ```
