@@ -16,3 +16,7 @@
   * [SQL AwaysON 安装配置](sql/安装数据库alwayson.md)
 * [Azure 学习笔记](azure/docs/README.md)
   * [Azure Cli 命令详解](azure/docs/azure-cli-command.md)
+* [ELK 学习笔记](ELK/README.md)
+  * [安装部署ELK](ELK/install-elasticsearch.md)
+  * [安装部署kafka](ELK/install-kafka.md)
+  * [使用elk监控windows日志和性能](ELK/use-elk-monitor-windows-event.md)
