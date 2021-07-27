@@ -239,6 +239,24 @@ cp -i /etc/kubernetes/admin.conf /root/.kube/config
 rm -f calico-3.18.yaml
 wget https://baoxishi.blob.core.chinacloudapi.cn/sharefile/calico-3.18.yaml
 sed -i "s#192\.168\.0\.0/16#${POD_SUBNET}#" calico-3.18.yaml
+# 添加如下内容：
+# 如果不添加可能会导致node节点之间无法连接
+- name: IP_AUTODETECTION_METHOD 
+  value: "interface=eth.*" # eth.*正则表示匹配到eth开头的所有网卡,或者直接指定 insterface=eth0
+#配置如下
+#- name: CLUSTER_TYPE 
+
+#  value: "k8s,bgp" 
+
+#- name: IP_AUTODETECTION_METHOD 
+
+#  value: "interface=eth.*" #或者 value: "interface=eth0"
+
+#- name: IP 
+
+#  value: "autodetect" 
+
+#执行
 kubectl apply -f calico-3.18.yaml
 ```
 

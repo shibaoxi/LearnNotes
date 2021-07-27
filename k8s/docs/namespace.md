@@ -18,8 +18,54 @@ Kubernetes使用命名空间的概念帮助解决集群中在管理对象时的�
 
 ## 常规操作
 
-创建命名空间
+通过命令创建命名空间
 
-```shell
+```bash
+kubectl create namespace demo-ns
+```
 
+通过yml文件创建命名空间
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-ns
+```
+
+把上面代码保存在ns.yaml文件中，执行如下命令
+
+```bash
+kubectl apply -f ns.yaml
+```
+
+创建资源指定命名空间
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ns-nginx
+  namespace: demo-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+删除命名空间
+
+```bash
+kubectl delete ns demo-ns
 ```
