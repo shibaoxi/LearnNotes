@@ -251,7 +251,7 @@ Deplyment的升级策略:
     while true; do curl http://40.73.8.50; done
     ```
 
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png)
+    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png" width=600 />
 
 4. 回滚升级
 
@@ -265,6 +265,6 @@ Deplyment的升级策略:
     kubectl rollout history deployment demodeployment 
     ```
 
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107150633.png)
+    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107150633.png" width=600 />
 
     >还记得上面创建Deployment时用的--record参数吗？如果不给这个参数，版本历史中的CHANGE-CAUSE这栏会为空，这也会是我们很难辨别每次更新做了哪些更改。

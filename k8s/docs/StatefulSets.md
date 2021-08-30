@@ -1,19 +1,22 @@
-#### StatefulSets
----
-> ##### 概念：
->> StatefulSet 是用来管理有状态应用的工作负载 API 对象。
+# StatefulSets 详解
+
+## 概念
+
+StatefulSet 是用来管理有状态应用的工作负载 API 对象。
 StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提供持久存储和持久标识符。
 和 Deployment 类似， StatefulSet 管理基于相同容器规约的一组 Pod。但和 Deployment 不同的是， StatefulSet 为它们的每个 Pod 维护了一个有粘性的 ID。这些 Pod 是基于相同的规约来创建的， 但是不能相互替换：无论怎么调度，每个 Pod 都有一个永久不变的 ID。
 如果希望使用存储卷为工作负载提供持久存储，可以使用 StatefulSet 作为解决方案的一部分。 尽管 StatefulSet 中的单个 Pod 仍可能出现故障， 但持久的 Pod 标识符使得将现有卷与替换已失败 Pod 的新 Pod 相匹配变得更加容易。
 
-##### Statefulset与ReplicaSet的对比
+### Statefulset与ReplicaSet的对比
+
 > ReplicaSet 管理的pod可以比作牛，在农场中如果一个牛生病了或者被屠宰了，可以创建一个新的实例来替换。
 另外Statefulset管理的又状态的pod比作宠物，是你精心喂养和照顾的，如果一只宠物死掉，不能买一只完全一样的，若要替换掉这只宠物，需要找到一只行为举止与之完全一致的宠物。
 
 - 提供稳定的网络标识
 
     一个Statefulset创建的每个pod都有一个从零开始的顺序索引，这些名称是可以预知的，有规律的。区别与replicaset生成的pod名称是随机的。
-![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108145210.png)
+
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108145210.png" width=600 />
 
 - 控制服务
 
@@ -22,27 +25,32 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
 - 替换消失的pod
 
     当Statefulset管理的一个pod消失后，Statefulset会保证重启一个新的实例替换它，新的pod与之前的pod拥有完全一致的名称和主机名。这区别与ReplicaSet。
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108150944.png)
+
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108150944.png" width=600 />
 
 - 扩缩容 Statefulset
 
     扩容会使用下一个还没有用到的顺序索引值创建一个新的pod实例。
     当缩容时，这里可以很明确哪个pod将要被删除。而Replicaset缩容则不同，它不知道哪个pod会被删除，完全时随机的。
     缩容Statefulset将会最先删除最高索引值的实例，所以缩容的结果时可预知的。
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108152419.png)
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108152419.png" width=600 />
 
 - 为每个有状态实例提供稳定的专属存储
 
     有状态额pod的存储必须时持久的，并且可以与pod解耦。创建Statefulset时会在pod创建之前创建持久卷声明，然后保定到一个pod实例上。
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108154955.png)
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108154955.png" width=600 />
+
     删除pod时并不会删除持久卷声明，当扩容创建一个新的pod实例时，新的实例会使用使用绑定在持久卷上的相同声明和上面的数据。
-    ![](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108155236.png)
+<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108155236.png" width=600 />
 
 ---
-##### 使用StatefulSets
 
-###### 准备应用和容器镜像
-* 创建一个有状态的应用
+## 使用StatefulSets
+
+### 准备应用和容器镜像
+
+- 创建一个有状态的应用
+
     ```javascript
     const http = require('http');
     const os = require('os');
@@ -80,20 +88,24 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
     www.listen(8080);
     ```
 
-* 创建Dockerfile文件
+- 创建Dockerfile文件
+
     ```Dockerfile
     FROM node:7
     ADD app.js /app.js
     ENTRYPOINT ["node", "app.js"]
     ```
-* 构建镜像并推送
 
-        docker build -t davidshi/demopet .
-        docker push davidshi/demopet
+- 构建镜像并推送
 
-###### 通过StatefulSets 部署应用
+  ```bash
+  docker build -t davidshi/demopet .
+  docker push davidshi/demopet
+  ```
 
-* 在部署Statefulset之前需要先部署Headless服务
+### 通过StatefulSets 部署应用
+
+- 在部署Statefulset之前需要先部署Headless服务
 
   ```yaml
   apiVersion: v1
@@ -109,8 +121,9 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
       port: 80
   ```
 
-* 部署statefulset
-    ```yaml
+- 部署statefulset
+
+  ```yaml
   apiVersion: apps/v1
   kind: StatefulSet
   metadata:
@@ -144,10 +157,12 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
         resources:
           requests:
             storage: 5Gi
-    ```
+  ```
 
-###### 验证检查
-* 检查生成的持久卷声明
+### 验证检查
+
+- 检查生成的持久卷声明
+
   ```bash
   # kubectl get pvc
   NAME                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS      AGE
@@ -155,12 +170,16 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
   data-demo-statefulset-1   Bound    pvc-d06b184f-4ed2-4e28-b4be-aa443f024942   5Gi        RWO            managed-premium   22h
   data-demo-statefulset-2   Bound    pvc-a8919919-2750-4c88-9e42-ad783dfcd347   5Gi        RWO            managed-premium   22h
   ```
+
   > 生成的持久卷声明的名称由在volumeClaimTemplate字段中定义的名称和每个pod的名称组成。
-* 使用pod
+
+- 使用pod
   1. 在客户端运行``` kubectl proxy ```
-        
-          Starting to serve on 127.0.0.1:8001
-  
+
+      ```bash
+      Starting to serve on 127.0.0.1:8001
+      ```
+
   2. 发送一个如下所示的请求到demo-statefulset-0 pod上：
 
       ```bash
@@ -168,12 +187,14 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
       You've hit demo-statefulset-0
       Data stored on this pod: No data posted yet
       ```
+
   3. 当应用收到一个post请求时，它把请求的主体内容保存到本地一个文件中，发送一个post请求到demo-statefulset-0
 
       ```bash
       # curl -X POST -d "Hey there! this greeting was submitted to demo-statefulset-0." localhost:8001/api/v1/namespaces/default/pods/demo-statefulset-0/proxy/
       Data stored on pod demo-statefulset-0
       ```
+
   4. 你发送的数据现在已经保存到pod中，那让我们检查一下当你再次发送一个get请求时，它是否会返回存储的数据：
 
       ```bash
@@ -181,6 +202,7 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
       You've hit demo-statefulset-0
       Data stored on this pod: Hey there! this greeting was submitted to demo-statefulset-0.
       ```
+
   5. 我们看看其他节点如何
 
       ```bash
@@ -188,13 +210,16 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
       You've hit demo-statefulset-1
       Data stored on this pod: No data posted yet
       ```
+
       > 这个结果符合我们的期望，每个节点拥有独自的状态。
+
   6. 删除一个有状态的pod来检查重新调度的pod是否关联了相同的存储
 
       ```bash
       # kubectl delete po demo-statefulset-0
       pod "demo-statefulset-0" deleted
       ```
+
   7. 查看pod，可以发现新的替代pod正在被创建
 
       ```bash
@@ -212,23 +237,27 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
       You've hit demo-statefulset-0
       Data stored on this pod: Hey there! this greeting was submitted to demo-statefulset-0.
       ```
+
       > 从pod返回的信息表明它的主机名和持久化数据与之前pod是完全一致的。
 
-###### 扩缩容Statefulset
+### 扩缩容Statefulset
 
-> ###### 扩缩容有以下几点需要注意：
-> * 缩容一个Statefulsset，只会删除对应的pod，留下卸载后的持久卷声明；
-> * 缩容超过一个实例的时候，会首先删除最高索引的值；
-> * 扩缩容都是顺序执行的，只有上一个被完全创建/删除，下一个才会创建/删除
+**扩缩容有以下几点需要注意：**
 
-###### 在Statefulset中发现伙伴节点
+- 缩容一个Statefulsset，只会删除对应的pod，留下卸载后的持久卷声明；
+
+- 缩容超过一个实例的时候，会首先删除最高索引的值；
+
+- 扩缩容都是顺序执行的，只有上一个被完全创建/删除，下一个才会创建/删除
+
+### 在Statefulset中发现伙伴节点
 
 Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名。
 > SRV 记录用来指向提供指定服务的服务器的主机名和端口号。
 
 我们接下来部署一个简单应用来了解这一特点：
-* 修改你的应用代码如下：
 
+- 修改你的应用代码如下：
 
   ```javascript
 
@@ -313,8 +342,7 @@ Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名�
   
   ```
 
-
-* 更新 Statefulset
+- 更新 Statefulset
 
   ```yaml
   spec:
@@ -323,7 +351,7 @@ Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名�
         image: davidshi/demo-pet-peers #修改镜像为上面更新的镜像名称
   ```
 
-* 通过service 向集群数据存储中写入数据
+- 通过service 向集群数据存储中写入数据
 
   ```bash
   # curl -X POST -d "The sun is shinning" localhost:8001/api/v1/namespaces/default/services/demoapp-public/proxy/
@@ -333,7 +361,8 @@ Kubernetes通过一个headless service 创建SRV记录来指向pod的主机名�
   # curl -X POST -d "I decide who I am" localhost:8001/api/v1/namespaces/default/services/demoapp-public/proxy/                     
   Data stored on pod demo-statefulset-0
   ```
-* 从数据存储中读取数据
+
+- 从数据存储中读取数据
 
   ```bash
   # curl localhost:8001/api/v1/namespaces/default/services/demoapp-public/proxy/

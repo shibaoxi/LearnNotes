@@ -260,6 +260,26 @@ sed -i "s#192\.168\.0\.0/16#${POD_SUBNET}#" calico-3.18.yaml
 kubectl apply -f calico-3.18.yaml
 ```
 
+> 使用calico客户端工具 calicoctl检查 calico状态 参考链接：<https://www.cnblogs.com/ding2016/p/10785892.html>
+
+```bash
+[root@m01 ~]# calicoctl node status
+Calico process is running.
+
+IPv4 BGP status
++-----------------+-------------------+-------+------------+-------------+
+|  PEER ADDRESS   |     PEER TYPE     | STATE |   SINCE    |    INFO     |
++-----------------+-------------------+-------+------------+-------------+
+| 192.168.100.192 | node-to-node mesh | up    | 2021-07-21 | Established |
+| 192.168.100.193 | node-to-node mesh | up    | 2021-07-21 | Established |
+| 192.168.100.194 | node-to-node mesh | up    | 2021-07-21 | Established |
+| 192.168.100.195 | node-to-node mesh | up    | 2021-07-28 | Established |
++-----------------+-------------------+-------+------------+-------------+
+
+IPv6 BGP status
+No IPv6 peers found.
+```
+
 **执行结果** :
 在执行结果中着重注意以下信息：保存到文本中备用
 
