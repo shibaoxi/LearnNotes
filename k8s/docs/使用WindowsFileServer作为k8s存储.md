@@ -29,9 +29,8 @@ kubectl -n kube-system get pod
 ```
 
 显示结果如下
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220402110907.png" width=640 height=360 />
 
-![PNG](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220402110907.png)
+![图1](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220402110907.png)
 
 > **注意**:如果要删除CSI驱动，请执行如下语句 ```./deploy/uninstall-driver.sh master local```
 
