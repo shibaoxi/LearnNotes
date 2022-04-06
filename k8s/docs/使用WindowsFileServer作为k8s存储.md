@@ -135,7 +135,8 @@ kubectl exec -it statefulset-smb-0 sh
 ```
 
 结果如图所示：
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220402200627.png" width=800 />
+
+![20220402200627](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220402200627.png)
 
 ### PV/PVC使用方法
 
