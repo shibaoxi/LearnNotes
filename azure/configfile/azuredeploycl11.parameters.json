@@ -3,19 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "existingVNetName": {
-        "value": "az140-adds-vnet11"
+        "value": "avd-adds-vnet11"
       },
       "existingSubnetName": {
         "value": "cl-Subnet"
       },
       "vmSize": {
-        "value": "Standard_D2s_v3"
+        "value": "Standard_B2s"
       },
       "domainToJoin": {
         "value": "adatum.com"
       },
       "domainUsername": {
-        "value": "Student"
+        "value": "avdAdmin"
       },
       "domainPassword": {
         "value": "Pa55w.rd1234"
@@ -24,13 +24,13 @@
         "value": 3
       },
       "vmAdminUsername": {
-        "value": "Student"
+        "value": "avdAdmin"
       },
       "vmAdminPassword": {
         "value": "Pa55w.rd1234"
       },
       "vmName": {
-        "value": "az140-cl-vm11"
+        "value": "avd-cl-vm11"
       },
       "ouPath": {
         "value": "" 
