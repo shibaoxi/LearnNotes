@@ -50,3 +50,12 @@
   * [6-mysql配置](Python/Django/docs/6-mysql配置.md)
   * [7-models模型类的定义](Python/Django/docs/7-models模型类的定义.md)
   * [8-ORM常用操作](Python/Django/docs/8-ORM常用操作.md)
+  * [9-QuerySet常用的API](Python/Django/docs/9-QuerySet常用的API.md)
+  * [10-django使用AzureKeyVault](Python/Django/docs/10-django使用AzureKeyVault.md)
+  * [11-Django中Setting的常用设置](Python/Django/docs/11-Django中Setting的常用设置.md)
+  * [12-后端Restful介绍以及配置](Python/Django/docs/12-后端Restful介绍以及配置.md)
+* [VUE 学习笔记](VUE/README.md)
+  * [1-使用vite创建vue3](VUE/1-使用vite创建vue3.md)
+  * [2-VUE项目搭建](VUE/2-VUE项目搭建.md)
+  * [3-vuex使用](VUE/3-vuex使用.md)
+  
