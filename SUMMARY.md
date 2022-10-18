@@ -24,6 +24,7 @@
   * [Linux子系统ubuntu安装docker](k8s/docs/Linux子系统ubuntu安装docker.md)
   * [手动更新Kubernetes证书](k8s/docs/手动更新Kubernetes证书.md)
   * [使用WindowsFileServer作为k8s存储](k8s/docs/使用WindowsFileServer作为k8s存储.md)
+  * [SkyWalking介绍与部署](k8s/docs/SkyWalking介绍与部署.md)
 * [数据库学习笔记](sql/README.md)
   * [SQL AwaysON 安装配置](sql/安装数据库alwayson.md)
 * [Azure 学习笔记](azure/docs/README.md)
@@ -58,4 +59,6 @@
   * [1-使用vite创建vue3](VUE/1-使用vite创建vue3.md)
   * [2-VUE项目搭建](VUE/2-VUE项目搭建.md)
   * [3-vuex使用](VUE/3-vuex使用.md)
+* [DEVOPS 工具链](devproduction/README.md)
+  * [1-minio群集部署](devproduction/1-minio群集部署.md)
   

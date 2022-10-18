@@ -647,3 +647,41 @@ data:
   data4: {{ trimPrefix "-" "-Jack" }}
   data2: {{ trimSuffix "+" "Jack+" }}
 ```
+
+##### lower和upper函数
+
+lower 和 upper 函数分别用于将字符串转换为小写或大写
+
+示例：
+
+- lower "JACK"
+- upper "Hello"
+
+##### title和untitle函数
+
+title 函数用于将首字母转换为大写，untitle 函数用于将首字母大写转换为小写
+
+示例：
+
+- title "message"
+- untitle "Hello"
+
+##### snakecase camelcase 和 kebabcase 函数
+
+- snakecase 函数用于将驼峰写法转换为下划线命名写法
+
+    ```bash
+    snakecase "UserName" # 返回结果 user_name
+    ```
+
+- camelcase 函数用于将下划线命名写法转换为驼峰写法
+
+    ```bash
+    camelcase "user_name" # 返回结果 UserName
+    ```
+
+- kebabcase 函数用于驼峰写法转换为中划线写法
+
+    ```bash
+    kebabcase "UserName" # 返回结果 user-name
+    ```
