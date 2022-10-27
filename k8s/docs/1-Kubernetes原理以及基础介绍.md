@@ -2,11 +2,11 @@
 
 ## Kubernetes群集组件
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/Kubernetes%20cluster2.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/Kubernetes%20cluster2.png)
 
 云上的kubernetes群集组件（Azure）
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/control-plane-and-nodes.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/control-plane-and-nodes.png)
 
 下面分别去介绍他们
 
@@ -23,7 +23,7 @@
 
 下图展示，API服务器接到kubectl请求后内部发生了什么：
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210117120112.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210117120112.png)
 
 #### 3. 调度器
 
@@ -34,11 +34,9 @@
 * 过滤所有的节点，找出能分配给pod的可用节点列表
 * 对可用节点按优先级排序，找出最优节点。如果多个节点都有最高的优先级分数，那么则循环分配，确保平均分配给pod。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210117123908.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210117123908.png)
 
 #### 4. 控制器
-
-> API 服务器只做了存储资源到etcd和通知客户端有变更的工作。调度器则只是给pod分配节点，所以需要有活跃的组件确保系统真实状态朝API服务器定义的期望状态收敛。而这个工作由控制器管理器中的控制器来实现。
 
 控制器包含如下：
 
@@ -68,4 +66,4 @@
 
 #### 7. Deployment资源提交到API服务器的事件链
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210118140131.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210118140131.png)

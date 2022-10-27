@@ -15,7 +15,8 @@
 **1. 获取pod度量:**
 
 pod度量数据 由cAdvisor的agent采集的，这些数据将由集群级的组件Heapster聚合，HPA控制器向Heapster发起REST调用来获取所有pod度量数据。
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210120114712.png" width=600 />
+
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210120114712.png)
 
 **2. 计算所需pod数量：**
 
@@ -30,7 +31,8 @@ pod度量数据 由cAdvisor的agent采集的，这些数据将由集群级的组
     Autoscaler单独计算每个度量的副本数，然后取最大值（比如：如果需要4个pod达到目标CPU使用率，以及需要3个pod来达到目标QPS，那么Autocaler将扩展到4个pod）
 
     如图所示：
-    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210125110615.png" width=600 />
+
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210125110615.png)
 
 **3. 更新被伸缩资源的副本数：**
 
@@ -38,4 +40,4 @@ pod度量数据 由cAdvisor的agent采集的，这些数据将由集群级的组
 
 Autoscaler控制器通过Scale子资源来修改被伸缩资源的replicas字段。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210128152239.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210128152239.png)

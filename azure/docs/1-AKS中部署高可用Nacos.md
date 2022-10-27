@@ -150,11 +150,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: internal-nacos
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  name: app-nacos-sit-headless
+  # annotations:
+  #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
-  type: LoadBalancer
+  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 8848
       name: server
@@ -278,6 +279,16 @@ spec:
             - name: data
               mountPath: /home/nacos/logs
               subPath: logs
+            - name: secrets-store
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-appkv-system-msi"
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -292,4 +303,37 @@ spec:
     matchLabels:
       app: nacos
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-nacos-sit-nlb
+  namespace: apollo-sit
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    # - port: 9848
+    #   name: client-rpc
+    #   targetPort: 9848
+    # - port: 9849
+    #   name: raft-rpc
+    #   targetPort: 9849
+    # ## 兼容1.4.x版本的选举端口
+    # - port: 7848
+    #   name: old-raft-rpc
+    #   targetPort: 7848
+  selector:
+    app: nacos
+
 ```
+
+创建完成后查找负载均衡的IP地址，直接访问 <http://172.16.22.41:8848/nacos/> 默认用户名密码为nacos/nacos
+
+更改密码
+
+![20221025131036](https://raw.githubusercontent.com/shibaoxi/shareimg/master/20221025131036.png)

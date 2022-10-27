@@ -4,7 +4,7 @@
 
 Prometheus是一款开源的监控工具，它的基本实现原理是从exporter拉取数据，或者间接地通过网关gateway拉取数据（如果在k8s内部署，可以使用服务发现的方式），它默认本地存储抓取的所有数据，并通过一定规则进行清理和整理数据，并把得到的结果存储到新的时间序列中，采集到的数据有两个去向，一个是报警，另一个是可视化。以下是Prometheus最新版本的架构图：
 
-<img src="https://i.loli.net/2021/08/09/emxlZ385yCwWpYV.png" width=600 />
+![img](https://i.loli.net/2021/08/09/emxlZ385yCwWpYV.png)
 
 Prometheus具有以下特点：
 
@@ -28,7 +28,7 @@ Prometheus具有以下特点：
 
 Prometheus以时间序列的方式将数据存储在本地硬盘，按照两个小时为一个时间窗口，将两小时内产生的数据存储在一个块(Block)中，每一个块又分为多个chunks，其中包含该时间窗口内的所有样本数据(chunks)，元数据文件(meta.json)以及索引文件(index)。
 
-<img src="https://i.loli.net/2021/08/09/OJjI2c3Z48he6Vf.png" width=600 />
+![img](https://i.loli.net/2021/08/09/OJjI2c3Z48he6Vf.png)
 
 当前时间窗口内正在收集的样本数据会直接保存在内存当中，达到2小时后写入磁盘，这样可以提高Prometheus的查询效率。为了防止程序崩溃导致数据丢失，实现了WAL（write-ahead-log）机制，启动时会以写入日志(WAL)的方式来实现重播，从而恢复数据。此期间如果通过API删除时间序列，删除记录也会保存在单独的逻辑文件当中(tombstone)，而不是立即从chunk文件中删除。
 

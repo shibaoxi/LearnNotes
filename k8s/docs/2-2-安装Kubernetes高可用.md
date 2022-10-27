@@ -16,11 +16,11 @@
 根据k8s 官方文档将HA拓扑分为两种，Stacked etcd topology（堆叠ETCD）和External etcd topology（外部ETCD）。
 **堆叠ETCD：** 每个master节点上运行一个apiserver和etcd只与本节点的apiserver 通信。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-stacked-etcd.svg" width=1200 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-stacked-etcd.svg)
 
 **外部ETCD：** etcd集群运行在单独的主机上，每个etcd都与apiserver节点通信。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-external-etcd.svg" width=1200 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/kubeadm-ha-topology-external-etcd.svg)
 
 > 官方文档主要是解决了高可用场景下apiserver与etcd集群的关系，三个master节点防止单点故障，但是集群对外访问接口不可能将三个apiserver都暴露出去，一个挂掉时还是不能自动切换到其他节点。
 
@@ -28,12 +28,12 @@
 
 下图时我们在生产环境所用的部署架构：
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/k8s-ha.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/k8s-ha.png)
 
 * 由外部负载均衡器提供一个vip，流量负载到keepalived master节点上。
 * 当keepalived节点出现故障，vip自动飘到其他可用节点。
 * haproxy负责将流量负载到apiserver节点。
-* 三个apiserver会同时工作。<font color=red>注意：k8s中controller-manager和scheduler只会有一个节点工作</font>
+* 三个apiserver会同时工作。注意：k8s中controller-manager和scheduler只会有一个节点工作
 
 #### 1.1.3 部署haproxy
 

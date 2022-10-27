@@ -6,7 +6,7 @@
 
 在 kubernetes 中，有两个基础但是非常重要的概念：node 和 pod。node 翻译成节点，是对集群资源的抽象；pod 是对容器的封装，是应用运行的实体。node 提供资源，而 pod 使用资源，这里的资源分为计算（cpu、memory、gpu）、存储（disk、ssd）、网络（network bandwidth、ip、ports）。这些资源提供了应用运行的基础，正确理解这些资源以及集群调度如何使用这些资源，对于大规模的 kubernetes 集群来说至关重要，不仅能保证应用的稳定性，也可以提高资源的利用率。
 
-<img src="https://i.loli.net/2021/07/19/ORHh7l6FK2Lb5nM.png" width=600 />
+![img](https://i.loli.net/2021/07/19/ORHh7l6FK2Lb5nM.png)
 
 ## 节点可用资源
 
@@ -18,7 +18,7 @@
 
 这两块预留之后的资源才是 pod 真正能使用的，不过考虑到 eviction 机制，kubelet 会保证节点上的资源使用率不会真正到 100%，因此 pod 的实际可使用资源会稍微再少一点。主机上的资源逻辑分配图如下所示：
 
-<img src="https://i.loli.net/2021/07/19/Dvi7OjBEN583Wfl.png" width=600 />
+![img](https://i.loli.net/2021/07/19/Dvi7OjBEN583Wfl.png)
 
 ## kubernetes 资源对象
 
@@ -109,7 +109,7 @@ kubernetes 把 pod 分成了三个 QoS 等级：
 
 Pod 的 requests 和 limits 是如何对应到这三个 QoS 等级上的，可以用下面一张表格概括：
 
-<img src="https://i.loli.net/2021/07/19/wGp6ZMoVuFCTQ18.png" width=600 />
+![img](https://i.loli.net/2021/07/19/wGp6ZMoVuFCTQ18.png)
 
 ## 参考配置文件
 

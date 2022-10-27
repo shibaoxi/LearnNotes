@@ -4,7 +4,7 @@
 
 在开始前，先来看看Kubernetes的架构示意图，其中控制平面包含以下三大组件：kube-scheduler、kube-apiserver、kube-controller-manager。
 
-<img src="https://i.loli.net/2021/07/22/9hKSMxzYwnm8R3l.png" width=600 />
+![img](https://i.loli.net/2021/07/22/9hKSMxzYwnm8R3l.png)
 
 >如上所述，kube-scheduler是K8S系统的核心组件之一，其主要负责Pod的调度，其监听kube-apiserver，查询未分配 Node的Pod（未分配、分配失败及尝试多次无法分配），根据配置的调度策略，将Pod调度到最优的工作节点上，从而高效、合理的利用集群的资源，该特性是用户选择K8S系统的关键因素之一，帮助用户提升效率、降低能耗。
 

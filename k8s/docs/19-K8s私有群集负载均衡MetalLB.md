@@ -8,7 +8,7 @@
 
 如果将服务的类型设置为 NodePort，kube-proxy 就会为这个服务申请一个 30000 以上的端口号（默认情况下），然后在集群所有主机上配置 IPtables 规则，这样用户就能通过集群中的任意节点加上这个分配的端口号访问服务了，如下图
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928114007.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928114007.png)
 
 NodePort 是最方便的暴露服务的方式，缺点也很明显：
 
@@ -22,7 +22,7 @@ NodePort 是最方便的暴露服务的方式，缺点也很明显：
 
 LoadBalancer 是 Kubernetes 提倡的将服务暴露给外部的一种方式。但是这种方式需要借助于云厂商提供的负载均衡器才能实现，这也要求了 Kubernetes 集群必须在云厂商上部署。LoadBalancer 的原理如下：
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928114633.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928114633.png)
 
 LoadBalancer 通过云厂商的 LB 插件实现，LB 插件基于 Kubernetes.io/cloud-provider 这个包实现，这个包会自动选择合适的后端暴露给 LB 插件，然后 LB 插件由此创建对应的负载均衡器，网络流量在云服务端就会被分流，就能够避免 NodePort 方式的单点故障和性能瓶颈。
 
@@ -32,7 +32,7 @@ LoadBalancer 是 Kubernetes 设计的对外暴露服务的推荐方式，但是�
 
 Ingress 并不是 Kubernetes 服务本身提供的暴露方式，而是借助于软件实现的同时暴露多个服务的一种类似路由器的插件。Ingress 通过域名来区分不同服务，并且通过 annotation 的方式控制服务对外暴露的方式。其原理如下图：
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928134443.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928134443.png)
 
 相比于 NodePort 和 LoadBalancer，Ingress 在企业业务场景中应该是使用的最多的，原因有：
 
@@ -70,7 +70,7 @@ MetalLB 支持两种声明模式：Layer 2（ ARP / NDP ）模式或者 BGP 模�
 
 #### Layer 2 模式
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928135805.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210928135805.png)
 
 在任何以太网环境均可使用该模式。当在第二层工作时，将有一台机器获得 IP 地址（即服务的所有权）。MetalLB 使用标准的地址发现协议（对于 IPv4 是 ARP，对于 IPv6 是 NDP）宣告 IP 地址，使其在本地网路中可达。从 LAN 的角度来看，仅仅是某台机器多配置了一个 IP 地址。
 

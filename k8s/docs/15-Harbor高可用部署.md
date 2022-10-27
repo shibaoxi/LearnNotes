@@ -10,11 +10,11 @@ Harbor实现了基于角色的访问控制机制，并通过项目来对镜像�
 
 ## 架构
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/architecture.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/architecture.png)
 
 ## 高可用架构
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210426145848.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210426145848.png)
 
 ## 安装
 
@@ -146,15 +146,15 @@ sh restartharbornginx.sh
 
 #### 2.1 新建项目
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507161828.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507161828.png)
 
 #### 2.2 新建用户
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507162320.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507162320.png)
 
 #### 2.3 把用户添加到项目中
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507162500.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507162500.png)
 
 #### 2.4 上传第一个镜像
 
@@ -177,10 +177,10 @@ systemctl restart docker
 
 #### 2.5 新建复制目标
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507170101.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507170101.png)
 
 #### 2.6 新建复制策略
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507170409.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210507170409.png)
 
 #### 2.7 另一台也执行相同动作

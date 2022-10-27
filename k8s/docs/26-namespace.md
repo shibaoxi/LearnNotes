@@ -6,7 +6,7 @@ Kubernetes集群可以同时管理大量互不相关的工作负载，而组织�
 
 Kubernetes使用命名空间的概念帮助解决集群中在管理对象时的复杂性问题。命名空间允许将对象分组到一起，便于将它们作为一个单元进行筛选和控制。无论是应用自定义的访问控制策略，还是为了测试环境而分离所有组件，命名空间都是一个按照组来处理对象、强大且灵活的概念。
 
-<img src="https://i.loli.net/2021/07/13/h7yVnDEINjBxFLA.png" width=600 />
+![img](https://i.loli.net/2021/07/13/h7yVnDEINjBxFLA.png)
 
 ## 初始NameSpace介绍
 

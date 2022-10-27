@@ -175,7 +175,7 @@ nginx-tcp-liveness-probe       1/1     Running   0          24s
 
 模拟故障，获取pod所属节点，登录到pod中，安装查看进程工具htop
 
-<img src="https://i.loli.net/2021/07/21/54Nj2WFckwo3vmH.png" width=600 />
+![img](https://i.loli.net/2021/07/21/54Nj2WFckwo3vmH.png)
 
 容器进程通常为1，kill掉进程观察容器状态，观察重启次数
 

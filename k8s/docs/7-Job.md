@@ -1,14 +1,14 @@
-> <font color=red>概念</font>
--- -
+# JOB
+
+## job 概念
+
 Job 会创建一个或者多个 Pods，并确保指定数量的 Pods 成功终止。 随着 Pods 成功结束，Job 跟踪记录成功完成的 Pods 个数。 当数量达到指定的成功个数阈值时，任务（即 Job）结束。 删除 Job 的操作会清除所创建的全部 Pods。
 
 一种简单的使用场景下，你会创建一个 Job 对象以便以一种可靠的方式运行某 Pod 直到完成。 当第一个 Pod 失败或者被删除（比如因为节点硬件失效或者重启）时，Job 对象会启动一个新的 Pod。
 
-> <font color=red>job运行单个实例</font>
----
+## job运行单个实例
 
-##### yaml 实例
-```bash
+```yml
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -24,10 +24,12 @@ spec:
       - name: main
         image: davidshi/batch-job
 ```
-> <font color=red>job运行多个实例</font>
----
-#### \- 顺序运行job pod
-```bash
+
+## job运行多个实例
+
+- 顺序运行job pod
+
+```yml
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -44,8 +46,10 @@ spec:
       - name: main
         image: davidshi/batch-job
 ```
-#### \- 并行运行job pod
-```bash
+
+- 并行运行job pod
+
+```yml
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -63,8 +67,10 @@ spec:
       - name: main
         image: davidshi/batch-job
 ```
-#### \- 定期运行job pod
-```bash
+
+- 定期运行job pod
+
+```yml
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -83,7 +89,23 @@ spec:
           - name: main
             image: davidshi/batch-job
 ```
+
 时间表从左到右包含分钟、小时、每月中的第几天、月、星期几。
-“0，15，30，45 * * * *” 这意味着每小时的0、15、30和45分钟
-“0，30 * 1 * *” 每隔30分钟运行一次，仅在每月的第一天运行
-“0 3 * * 0” 每个星期天的3AM运行 星期天用0表示
+
+```bash
+0,15,30,45 * * * *
+```
+
+这意味着每小时的0、15、30和45分钟
+
+```bash
+0，30 * 1 * *
+```
+
+每隔30分钟运行一次，仅在每月的第一天运行
+
+```bash
+0 3 * * 0
+```
+
+每个星期天的3AM运行 星期天用0表示

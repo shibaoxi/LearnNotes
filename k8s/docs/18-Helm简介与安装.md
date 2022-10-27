@@ -26,7 +26,7 @@
 
 ### 组件与架构
 
-<img src="https://i.loli.net/2021/08/30/tFqwk1IzyEd8avS.png" width=600 />
+![img](https://i.loli.net/2021/08/30/tFqwk1IzyEd8avS.png)
 
 #### 组件介绍
 

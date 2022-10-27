@@ -15,7 +15,7 @@ openssl x509 -in apiserver.crt -noout -text | grep 'Not'
 
 输出如下状态：
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324111117.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324111117.png)
 
 可以看到证书文件已经过期
 
@@ -27,7 +27,7 @@ kubeadm certs check-expiration
 
 输出如下信息：
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324114524.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324114524.png)
 
 可以看到证书的到期时间和剩余时间
 
@@ -41,7 +41,7 @@ kubeadm certs check-expiration
 kubeadm certs renew all
 ```
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324115027.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324115027.png)
 
 ## 将admin.conf文件替换掉config文件
 
@@ -73,6 +73,6 @@ kubectl delete -n $ns pod kube-scheduler-m02
 kubeadm certs check-expiration
 ```
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324120634.png" width=600 />
+![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20220324120634.png)
 
 > 如果有其它主节点，在其他节点执行同样动作

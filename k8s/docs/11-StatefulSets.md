@@ -16,7 +16,7 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
 
     一个Statefulset创建的每个pod都有一个从零开始的顺序索引，这些名称是可以预知的，有规律的。区别与replicaset生成的pod名称是随机的。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108145210.png" width=600 />
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108145210.png)
 
 - 控制服务
 
@@ -26,22 +26,25 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
 
     当Statefulset管理的一个pod消失后，Statefulset会保证重启一个新的实例替换它，新的pod与之前的pod拥有完全一致的名称和主机名。这区别与ReplicaSet。
 
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108150944.png" width=600 />
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108150944.png)
 
 - 扩缩容 Statefulset
 
     扩容会使用下一个还没有用到的顺序索引值创建一个新的pod实例。
     当缩容时，这里可以很明确哪个pod将要被删除。而Replicaset缩容则不同，它不知道哪个pod会被删除，完全时随机的。
     缩容Statefulset将会最先删除最高索引值的实例，所以缩容的结果时可预知的。
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108152419.png" width=600 />
+
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108152419.png)
 
 - 为每个有状态实例提供稳定的专属存储
 
     有状态额pod的存储必须时持久的，并且可以与pod解耦。创建Statefulset时会在pod创建之前创建持久卷声明，然后保定到一个pod实例上。
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108154955.png" width=600 />
+
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108154955.png)
 
     删除pod时并不会删除持久卷声明，当扩容创建一个新的pod实例时，新的实例会使用使用绑定在持久卷上的相同声明和上面的数据。
-<img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108155236.png" width=600 />
+
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/20210108155236.png)
 
 ---
 

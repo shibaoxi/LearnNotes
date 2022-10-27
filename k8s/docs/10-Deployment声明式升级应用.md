@@ -206,7 +206,7 @@ Deplyment的升级策略:
 
 |方法|作用|
 |----|----|
-|<div style="width: 100pt">  kubectl edit </div>|使用默认编辑器打开资源配置。修改保存并退出编辑器，资源对象会被更新。例如：``` kubectl edit deployment demodeployment ```
+| kubectl edit |使用默认编辑器打开资源配置。修改保存并退出编辑器，资源对象会被更新。例如：``` kubectl edit deployment demodeployment ```
 |kubectl patch |修改单个资源属性。例如：``` kubectl patch deployment demodeployment -p '{"spec":{"template": {"spec": {"containers": [{"name": "nodejs", "image": "davidshi/demoapp:v2"}]}}}}' ```|
 |kubectl apply|通过一个完整的yaml或者json文件，应用其中新的值来修改对象。如果yaml/json中指定的对象不存在，则被创建。该文件需要包含资源的完整定义(不能像kubectl patch那样只包含想要更新的字段)。例如: ``` kubectl apply -f demo-deployment-v2.yaml ```|
 |kubectl replace|将原有对象替换为yaml/json文件中定义的新的对象，与apply命令相反，运行这个命令前要求对象必须存在，否则会报错。例如: ``` kubectl replace -f demo-deployment-v2.yaml ```|
@@ -251,7 +251,7 @@ Deplyment的升级策略:
     while true; do curl http://40.73.8.50; done
     ```
 
-    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png" width=600 />
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107145835.png)
 
 4. 回滚升级
 
@@ -265,6 +265,6 @@ Deplyment的升级策略:
     kubectl rollout history deployment demodeployment 
     ```
 
-    <img src="https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107150633.png" width=600 />
+    ![img](https://raw.githubusercontent.com/shibaoxi/shareimg/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210107150633.png)
 
     >还记得上面创建Deployment时用的--record参数吗？如果不给这个参数，版本历史中的CHANGE-CAUSE这栏会为空，这也会是我们很难辨别每次更新做了哪些更改。

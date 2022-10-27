@@ -8,7 +8,7 @@
 
 本文我们就将在 Kubernetes 集群中使用由 ElasticSearch、Kibana、Filebeat、Metricbeat 和 APM-Server 组成的 Elastic 技术栈来监控系统环境。为了更好地去了解这些组件的配置，我们这里将采用手写资源清单文件的方式来安装这些组件，当然我们也可以使用 Helm 等其他工具来快速安装配置。
 
-<img src="https://i.loli.net/2021/07/28/NzhgvQDLs27oOBi.png" width=600 />
+![img](https://i.loli.net/2021/07/28/NzhgvQDLs27oOBi.png)
 
 接下来我们就来学习下如何使用 Elastic 技术构建 Kubernetes 监控栈，我们这里的试验环境是 Kubernetes v1.20.0 版本的集群，为方便管理，我们将所有的资源对象都部署在一个名为 elastic 的命名空间中：
 
@@ -699,10 +699,11 @@ kibana   NodePort   172.19.219.224   <none>        5601:30472/TCP   21h
 
 如下图所示，使用elastic用户名和密码即可登录
 
-<img src="https://i.loli.net/2021/07/29/K2GF6d8aAtmLh9f.png" width=600 />
+![img](https://i.loli.net/2021/07/29/K2GF6d8aAtmLh9f.png)
 
 最后还可以通过 Management → Stack Monitoring 页面查看整个集群的健康状态：
-<img src="https://i.loli.net/2021/07/29/Iwniu5bD24o7Hpq.png" width=600 />
+
+![img](https://i.loli.net/2021/07/29/Iwniu5bD24o7Hpq.png)
 
 到这里我们就安装成功了 ElasticSearch 与 Kibana，它们将为我们来存储和可视化我们的应用数据（监控指标、日志和追踪）服务。
 
@@ -1052,23 +1053,23 @@ metricbeat-vkzk5   1/1     Running   0          61m
 
 在 Kibana 左侧页面 Observability → Metrics 进入指标监控页面，正常就可以看到一些监控数据了：
 
-<img src="https://i.loli.net/2021/07/30/u3fOgNYJFRx1ob4.png" width=600 />
+![img](https://i.loli.net/2021/07/30/u3fOgNYJFRx1ob4.png)
 
 也可以根据自己的需求进行筛选，比如我们可以按照 Kubernetes Namespace 进行分组作为视图查看监控信息：
 
-<img src="https://i.loli.net/2021/07/30/Zv3MeD7yjXnk2FI.png" width=600 />
+![img](https://i.loli.net/2021/07/30/Zv3MeD7yjXnk2FI.png)
 
 由于我们在配置文件中设置了属性 setup.dashboards.enabled=true，所以 Kibana 会导入预先已经存在的一些 Dashboard。我们可以在左侧菜单进入 Kibana → Dashboard 页面，我们会看到一个大约有 50 个 Metricbeat 的 Dashboard 列表，我们可以根据需要筛选 Dashboard，比如我们要查看集群节点的信息，可以查看 [Metricbeat Kubernetes] Overview ECS 这个 Dashboard：
 
-<img src="https://i.loli.net/2021/07/30/FLfmO9gBRGpJPVH.png" width=600 />
+![img](https://i.loli.net/2021/07/30/FLfmO9gBRGpJPVH.png)
 
 我们还单独启用了 mongodb 模块，我们可以使用 [Metricbeat MongoDB] Overview ECS 这个 Dashboard 来查看监控信息：
 
-<img src="https://i.loli.net/2021/07/30/cMBlz2PGkeSDZ8v.png" width=600 />
+![img](https://i.loli.net/2021/07/30/cMBlz2PGkeSDZ8v.png)
 
 我们还启用了 docker 这个模块，也可以使用 [Metricbeat Docker] Overview ECS 这个 Dashboard 来查看监控信息：
 
-<img src="https://i.loli.net/2021/07/30/AKSUcIB1PsfxoEq.png" width=600 />
+![img](https://i.loli.net/2021/07/30/AKSUcIB1PsfxoEq.png)
 
 到这里我们就完成了使用 Metricbeat 来监控 Kubernetes 集群信息，在下文我们再来学习如何使用 Filebeat 来收集日志以监控 Kubernetes 集群。
 
@@ -1362,7 +1363,7 @@ serviceaccount/filebeat created
 
 当所有的 Filebeat 的 Pod 都变成 Running 状态后，证明部署完成。现在我们就可以进入到 Kibana 页面中去查看日志了。左侧菜单 Observability → Logs
 
-<img src="https://i.loli.net/2021/08/02/4VCmw6BlMu2ofQW.png" width=600 />
+![img](https://i.loli.net/2021/08/02/4VCmw6BlMu2ofQW.png)
 
 ## 使用 Elastic APM 实时监控应用性能
 
@@ -1372,10 +1373,11 @@ Elastic APM 是兼容 OpenTracing 的，所以我们可以使用大量现有的�
 
 比如我们可以在一个分布式环境（微服务架构）中跟踪一个请求，并轻松找到可能潜在的性能瓶颈。
 
-<img src="https://i.loli.net/2021/08/06/hHz7ArY3L2dxpVU.png" width=600 />
+![img](https://i.loli.net/2021/08/06/hHz7ArY3L2dxpVU.png)
 
 Elastic APM 通过一个名为 APM-Server 的组件提供服务，用于收集并向 ElasticSearch 以及和应用一起运行的 agent 程序发送追踪数据。
-<img src="https://i.loli.net/2021/08/06/cpeFlKoZMbhstYx.png" width=600 />
+
+![img](https://i.loli.net/2021/08/06/cpeFlKoZMbhstYx.png)
 
 ### 安装 APM-Server
 

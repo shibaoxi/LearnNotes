@@ -6,7 +6,7 @@ k8s对有状态的容器应用或者需要对数据进行持久化的应用，�
 
 >比如在生产环境中有一个专门的文件服务器，那么就可以使用PV对文件服务器的资源进行定义，比如总共有多少容量等，然后用PVC对PV资源进行申请，申请多少容量，然后再容器里引用PVC即可。
 
-<img src="https://i.loli.net/2021/07/27/fQlsVIcbrPSyAdu.png" width=600 />
+![img](https://i.loli.net/2021/07/27/fQlsVIcbrPSyAdu.png)
 
 ## 概念
 
@@ -76,7 +76,9 @@ spec:
     - ReadWriteOnce（RWO）：读写权限，并且只能被单个Node挂载。
     - ReadOnlyMany（ROX）：只读权限，允许被多个Node挂载。
     - ReadWriteMany（RWX）：读写权限，允许被多个Node挂载。
-<img src="https://i.loli.net/2021/07/27/JeBG83vHrgM2oDA.png" width=600 />
+
+    ![img](https://i.loli.net/2021/07/27/JeBG83vHrgM2oDA.png)
+
 4. **存储类别(Class)**：设定存储的类别，通过storageClassName参数指定给一个StorageClass资源对象的名称，具有特定类别的PV只能与请求了该类别的PVC进行绑定。未绑定类别的PV则只能与不请求任何类别的PVC进行绑定。
 
 5. **回收策略（Reclaim Policy）**：通过persistentVolumeReclaimPolicy字段设置
@@ -133,7 +135,7 @@ spec:
 
 ## PV和PVC的生命周期
 
-<img src="https://i.loli.net/2021/07/27/ki41PsTGNJOMwQX.png" width=600 />
+![img](https://i.loli.net/2021/07/27/ki41PsTGNJOMwQX.png)
 
 1. **资源供应**
 

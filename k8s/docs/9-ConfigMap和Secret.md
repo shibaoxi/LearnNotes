@@ -1,4 +1,7 @@
-##### 在fortune-args文件夹下面修改foruneloop.sh
+# ConfigMap and Secret
+
+## 在fortune-args文件夹下面修改foruneloop.sh
+
 ```bash
 #!/bin/bash
 trap "exit" SIGINT
@@ -11,9 +14,10 @@ do
   /usr/games/fortune > /var/htdocs/index.html
   sleep $INTERVAL
 done
-
 ```
-##### 修改Dockerfile
+
+## 修改Dockerfile
+
 ```bash
 FROM ubuntu:latest
 RUN apt-get update ; apt-get -y install fortune
@@ -23,25 +27,33 @@ ENTRYPOINT ["/bin/fortuneloop.sh"]
 CMD ["10"]
 ```
 
-##### 重新构建镜像并推送到Docker Hub
-    docker build -t davidshi/fortune:args .
-    docker push davidshi/fortune:args
+## 重新构建镜像并推送到Docker Hub
 
-##### 在本地启动镜像进行测试
-    docker run -it davidshi/fortune:args
-    #添加参数
-    docker run -it davidshi/fortune:args 20
+```bash
+docker build -t davidshi/fortune:args .
+docker push davidshi/fortune:args
+```
 
----
-### 在Kubernetes中覆盖命令和参数
-##### 在Docker与Kubernetes中指定可执行程序及其参数
+## 在本地启动镜像进行测试
+
+```bash
+docker run -it davidshi/fortune:args
+#添加参数
+docker run -it davidshi/fortune:args 20
+```
+
+## 在Kubernetes中覆盖命令和参数
+
+### 在Docker与Kubernetes中指定可执行程序及其参数
+
 | Docker | Kubernetes | 描述 |
 | :----: | :----: | :----: |
 | ENTRYPOINT | command | 容器中运行的可执行文件 |
 | CMD | args | 传给可执行文件的参数 |
 
-##### 自定义间隔值运行fortune pod
-``` bash
+### 自定义间隔值运行fortune pod
+
+```yml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -67,11 +79,13 @@ spec:
     - containerPort: 80
       protocol: TCP
 ```
----
+
 ### 设置容器环境变量
+
 容器化应用通常会使用环境变量作为配置源
 > 通过环境变量配置fortune镜像中的间隔值
 >> 修改如下脚本移除脚本中的INTERVAL初始化所在的行
+
 ```bash
 #!/bin/bash
 trap "exit" SIGINT
@@ -84,11 +98,13 @@ do
   sleep $INTERVAL
 done
 ```
+
 >> 重建镜像然后推送到docker hub中
     docker build -t davidshi/fortune:env .
     docker push davidshi/fortune:env
 >> 在pod yaml文件中定义环境变量
-``` bash
+
+```yml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -116,16 +132,23 @@ spec:
     - containerPort: 80
       protocol: TCP
 ```
----
+
 ### ConfigMap
-##### 介绍
+
+#### 介绍
+
 kubernetes 允许将配置选项分离到单独的资源对象ConfigMap中。本质上就是一个键/值对映射，值可以时短字变量，也可以是完整的配置文件
-##### 使用configMap卷将条目暴露为文件
+
+### 使用configMap卷将条目暴露为文件
+
 configMap卷会将ConfigMap中的每个条目均暴露成一个文件，运行在容器中的进程可以通过读取文件内容获取对应的条目值
 > 这种方法主要适用于传递较大的配置文件给容器，同样可以用于传递较短的变量值
-##### 示例
+
+### 示例
+
 * 创建ConfigMap
     > 开启gzip压缩的Nginx配置文件
+
     ``` bash
     server {
         listen 80;
@@ -139,14 +162,19 @@ configMap卷会将ConfigMap中的每个条目均暴露成一个文件，运行�
         }
     }
     ```
+
     >创建一个configmap-files文件夹，把上面的配置文件存储在该文件夹下面，另外在创建一个sleep-interval的文本文件，写入值25
 
     > 从文件夹创建ConfigMap
-    
-        kubectl create configmap fortune-config --from-file=configmap-files
+
+    ```bash
+    kubectl create configmap fortune-config --from-file=configmap-files
+    ```
+
 * 创建pod引用ConfigMap
     > 编辑yaml文件
-    ``` bash
+
+    ```yml
     apiVersion: v1
     kind: Pod
     metadata:
@@ -184,32 +212,44 @@ configMap卷会将ConfigMap中的每个条目均暴露成一个文件，运行�
         protocol: TCP
     ```
 
----
 ### Secret
-##### Secret介绍
+
+#### Secret介绍
+
 Secret结构和ConfigMap类似，均是键值对的形式，Secret的使用方法也与ConfigMap相同
-- 将Secret条目作为环境变量传递给容器
-- 将Secret条目暴露为卷中的文件
+
+* 将Secret条目作为环境变量传递给容器
+* 将Secret条目暴露为卷中的文件
+
 > Secret 只会存放在主机的内存中，不会写入物理存储，这样就需要保障主节点的安全。
-##### 创建Secret
+
+#### 创建Secret
+
 1. 在本地机器上生成证书和私钥文件
 
-        openssl genrsa -out https.key 2048
-        openssl req  -new -x509 -key https.key -out https.cert -days 3650 -subj /CN=www.contoso.com
+    ```bash
+    openssl genrsa -out https.key 2048
+    openssl req  -new -x509 -key https.key -out https.cert -days 3650 -subj /CN=www.contoso.com
+    ```
 
 2. 创建一个额外的字符串bar的虚拟文件foo
     > 后面这个会验证Secret和ConfigMap的区别
-
-        echo bar > foo
+    ```echo bar > foo```
 
 3. 创建Secret
 
-        kubectl create secret generic fortune-https --from-file=https.key --from-file=https.cert --from-file=foo
-##### Secret和ConfigMap的区别
+    ```bash
+    kubectl create secret generic fortune-https --from-file=https.key --from-file=https.cert --from-file=foo
+    ```
+
+#### Secret和ConfigMap的区别
+
 > Secret 条目的内容会被以Base64格式编码，而ConfigMap直接以纯文本展示，因此Secret的条目可以涵盖二进制数据，另外Secret的大小限制至于1MB
 
-##### 在pod中使用Secret
+#### 在pod中使用Secret
+
 1. 修改demo-nginx-config.conf文件内容，并创建新的ConfigMap对象
+
     ``` bash
     server {
         listen 80;
@@ -229,8 +269,10 @@ Secret结构和ConfigMap类似，均是键值对的形式，Secret的使用方�
         }
     }
     ```
+
 2. 挂载fortune-secret 到pod，需要创建一个新的fortune-https pod，将含有证书的secret卷挂载到pod中的web-server容器。
-    ```bash
+
+    ```yml
     apiVersion: v1
     kind: Pod
     metadata:
@@ -273,7 +315,10 @@ Secret结构和ConfigMap类似，均是键值对的形式，Secret的使用方�
         - containerPort: 80
         - containerPort: 443
     ```
+
 3. 测试Nginx是否正在使用Secret中的证书与密钥
 
-        kubectl port-forward demo-fortune-https 8443:443
-        curl https://localhost:8443 -k -v
+    ```bash
+    kubectl port-forward demo-fortune-https 8443:443
+    curl https://localhost:8443 -k -v
+    ```
