@@ -23,6 +23,8 @@ openssl x509 -in apiserver.crt -noout -text | grep 'Not'
 
 ```bash
 kubeadm certs check-expiration
+# 1.2 之前的需要运行如下命令
+kubeadm alpha certs check-expiration
 ```
 
 输出如下信息：
@@ -49,7 +51,7 @@ kubeadm certs renew all
 # 备份config文件
 mv ~/.kube/config ~/.kube/config.old
 # copy admin.conf文件到.kube目录下
-cp -i admin.conf ~/.kube/config
+cp -i /etc/kubernetes/admin.conf ~/.kube/config
 ```
 
 ## 重启相关pod

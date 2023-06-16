@@ -238,7 +238,7 @@ spec:
             - name: PREFER_HOST_MODE
               value: "hostname"
             - name: MYSQL_SERVICE_DB_PARAM
-              value: "characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai" #连接8.0需要添加，否则连不上
+              value: "characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=true&serverTimezone=Asia/Shanghai" #连接8.0需要添加，否则连不上
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
