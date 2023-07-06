@@ -244,24 +244,18 @@ mkdir /etc/docker
 # 设置 Docker daemon
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
-    "exec-opts": ["native.cgroupdriver=systemd"],
-    "log-driver": "json-file",
-    "log-opts": {
-        "max-size": "100m"
-    },
-    "storage-driver": "overlay2",
-    "storage-opts": [
-        "overlay2.override_kernel_check=true"
-    ],
-    "graph": "/home/docker-data" 
+    "registry-mirrors": [
+        "https://docker.m.daocloud.io",
+        "https://dockerproxy.com",
+        "https://docker.mirrors.ustc.edu.cn",
+        "https://docker.nju.edu.cn"
+    ]
 }
 EOF
 # 当某个Linux系统发行版使用systemd作为其初始化系统时，初始化进程会生成并使用一个root控制组(cgroup)，并充当cgroup管理器。systemd与cgroup紧密集成，并将为每个systemd单元分配一个cgroup
 # 我们建议docker runtime 和 kubelet 都是用systemd作为cgroup驱动，以此使系统更为稳定。
 # 对于Docker，设置 native.cgroupdriver=systemd 选项
 
-# Create /etc/systemd/system/docker.service.d
-mkdir -p /etc/systemd/system/docker.service.d
 # 重启 Docker
 systemctl daemon-reload
 systemctl restart docker
