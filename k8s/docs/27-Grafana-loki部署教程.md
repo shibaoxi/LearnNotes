@@ -84,11 +84,24 @@ grafana/promtail                6.11.5          2.8.2           Promtail is an a
 kubectl create ns loki
 ```
 
-Loki需要一个兼容s3的对象存储解决方案来存储Kubernetes集群日志。为简单起见，本教程将使用MinIO。要启用它，您需要编辑Loki的Helm Chart值文件。
-
-创建一个values.yml 文件，并添加如下内容
+下载helm chart 包到本地
 
 ```bash
+helm pull grafana/loki
+```
+
+获取配置文件
+
+```bash
+helm show values grafana/loki > loki-values.yaml
+```
+
+Loki需要一个兼容s3的对象存储解决方案来存储Kubernetes集群日志。为简单起见，本教程将使用MinIO。要启用它，您需要编辑Loki的Helm Chart值文件。
+
+修改loki-values 中的内容
+
+```bash
+auth_enabled: false
 minio:
   enabled: true
 ```
@@ -96,6 +109,7 @@ minio:
 运行如下命令安装loki
 
 ```bash
+helm upgrade --install logging grafana/loki --namespace=loki -f loki-values.yaml --debug
 helm upgrade --install --namespace loki logging grafana/loki -f values.yml --set loki.auth_enabled=false --debug
 ```
 

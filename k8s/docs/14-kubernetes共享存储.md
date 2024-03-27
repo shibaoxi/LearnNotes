@@ -209,6 +209,8 @@ parameters:
 
 ### 利用NFS动态提供Kubernetes后端存储卷
 
+https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
+
 参考链接：<https://www.cnblogs.com/panwenbin-logs/p/12196286.html>
 
 <https://github.com/kubernetes-retired/external-storage/tree/master/nfs-client>

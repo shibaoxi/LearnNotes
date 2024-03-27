@@ -38,7 +38,7 @@ EOF
 # 更新yum
 yum update -y
 # 安装工具包
-yum install -y tree tc net-tools wget bash-completion telnet
+yum install -y tree  net-tools wget bash-completion telnet
 # 安装依赖包
 yum -y install ipvsadm ipset sysstat conntrack libseccomp
 
@@ -66,7 +66,7 @@ sed -i 's/^SELINUX=enforcing$/SELINUX=disabled/' /etc/selinux/config
 yum -y install chrony
 # 配置时间源为国内服务器
 # 服务器端配置
-sed -i -e '/^pool.*/d' -e '/^server.*/d' -e '/^# Please consider .*/a\server ntp.aliyun.com iburst\nserver time1.cloud.tencent.com iburst\nserver ntp.tuna.tsinghua.edu.cn iburst' -e 's@^#allow.*@allow 0.0.0.0/0@' -e 's@^#local.*@local stratum 10@' /etc/chrony.conf
+sed -i -e '/^pool.*/d' -e '/^server.*/d' -e '/^# Please consider .*/a\server ntp.aliyun.com iburst\nserver time1.cloud.tencent.com iburst\nserver ntp.tuna.tsinghua.edu.cn iburst' -e 's@^#allow.*@allow 0.0.0.0/0@' -e 's@^#local.*@local stratum 10@' /etc/chrony/chrony.conf
 # 客户端配置，如果企业有自己的NTP服务器，可以通过下面语句执行
 # sed -i -e '/^pool.*/d' -e '/^server.*/d' -e '/^# Please consider .*/a\server '${SERVER1}' iburst\nserver '${SERVER2}' iburst' /etc/chrony.conf
 
@@ -137,6 +137,7 @@ ipt_rpfilter
 ipt_REJECT
 ipip
 EOF
+
 ​#内核小于4.18，把这行改成nf_conntrack_ipv4(执行时去掉注释)
 # 重启服务
 systemctl restart systemd-modules-load.service
@@ -249,7 +250,8 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
         "https://dockerproxy.com",
         "https://docker.mirrors.ustc.edu.cn",
         "https://docker.nju.edu.cn"
-    ]
+    ],
+    "data-root": "/appdata/docker"
 }
 EOF
 # 当某个Linux系统发行版使用systemd作为其初始化系统时，初始化进程会生成并使用一个root控制组(cgroup)，并充当cgroup管理器。systemd与cgroup紧密集成，并将为每个systemd单元分配一个cgroup
@@ -296,12 +298,37 @@ repo_gpgcheck=0
 gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 EOF
 
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
+enabled=1
+gpgcheck=1
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
+EOF
+
+```
+
+ubuntu 设置如下
+
+```bash
+curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo tee /etc/apt/sources.list.d/kubernetes.list <<-'EOF'
+deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
+EOF
+cd /etc/apt
+sudo cp trusted.gpg trusted.gpg.d
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
 安装kubeadm组件，如果安装kubernetes 1.25.3 版本，替换相应的版本号即可
 
 ```bash
-yum -y install kubeadm-1.24.7 kubelet-1.24.7 kubectl-1.24.7
+yum -y install kubeadm-1.27.3 kubelet-1.27.3 kubectl-1.27.3
 # 设置开机启动
 systemctl daemon-reload && systemctl enable --now kubelet
 ```
@@ -460,8 +487,8 @@ kubeadm init 命令参考说明
 ```bash
 kubeadm init \
  --image-repository registry.aliyuncs.com/google_containers \
- --control-plane-endpoint=192.168.100.110:9443 \
- --kubernetes-version v1.24.7 \
+ --control-plane-endpoint=192.168.29.168:9443 \
+ --kubernetes-version v1.29.1 \
  --service-cidr=10.1.0.0/16 \
  --pod-network-cidr=172.19.0.0/16 \
  --service-dns-domain cluster.local \

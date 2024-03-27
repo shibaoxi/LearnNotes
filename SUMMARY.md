@@ -4,7 +4,7 @@
   * [1. Kubernetes原理以及基础介绍](k8s/docs/1-Kubernetes原理以及基础介绍.md)
   * [2. 使用kubeadm的方式搭建kubernetes集群](k8s/docs/2-使用kubeadm的方式搭建kubernetes高可用集群.md)
     * [2.1. 基于containerd的部署](k8s/docs/2-1-基于containerd的部署.md)
-    * [2.2  基于docker的部署](k8s/docs/2-2-基于docker的部署)
+    * [2.2  基于docker的部署](k8s/docs/2-2-基于docker的部署.md)
   * [3. 手动更新Kubernetes证书](k8s/docs/3-手动更新Kubernetes证书.md)
   * [4. POD 介绍](k8s/docs/4-pod.md)
   * [5. POD健康检查机制](k8s/docs/5-Pod健康检查机制.md)
